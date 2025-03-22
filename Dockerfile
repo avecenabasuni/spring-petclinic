@@ -22,11 +22,11 @@ COPY --from=builder /app/target/spring-petclinic-*.jar app.jar
 
 # Runtime ENV vars (override saat docker run)
 ENV OTEL_SERVICE_NAME=spring-petclinic
-ENV OTEL_EXPORTER_OTLP_ENDPOINT=https://otlp.nr-data.net:4317
-ENV OTEL_EXPORTER_OTLP_HEADERS=api-key=REPLACE_ME
+ENV OTEL_EXPORTER_OTLP_ENDPOINT=https://otlp.nr-data.net
+ENV OTEL_EXPORTER_OTLP_HEADERS=api-key=b535d93b44eda24b77a0f3c5278c04cfFFFFNRAL
 
 # Expose port (default Spring Boot)
 EXPOSE 8080
 
 # Run app with agent
-ENTRYPOINT ["java", "-javaagent:/app/opentelemetry-javaagent.jar", "-Dotel.service.name=${OTEL_SERVICE_NAME}", "-Dotel.exporter.otlp.endpoint=${OTEL_EXPORTER_OTLP_ENDPOINT}", "-Dotel.exporter.otlp.headers=${OTEL_EXPORTER_OTLP_HEADERS}", "-jar", "/app/app.jar"]
+ENTRYPOINT ["java", "-javaagent:/app/opentelemetry-javaagent.jar", "-Dotel.service.name=spring-petclinic", "-Dotel.exporter.otlp.endpoint=https://otlp.nr-data.net", "-Dotel.exporter.otlp.headers=api-key=b535d93b44eda24b77a0f3c5278c04cfFFFFNRAL", "-jar", "/app/app.jar"]
