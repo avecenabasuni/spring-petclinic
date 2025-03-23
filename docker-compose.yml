@@ -26,9 +26,17 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - OTEL_SERVICE_NAME=spring-petclinic
+      - OTEL_SERVICE_NAME=PetClinic-OTel
       - OTEL_EXPORTER_OTLP_ENDPOINT=https://otlp.nr-data.net
       - OTEL_EXPORTER_OTLP_HEADERS=api-key=${NEW_RELIC_LICENSE_KEY}
     depends_on:
       - mysql
       - postgres
+  load-generator:
+    image: grafana/k6
+    volumes:
+      - ./k6/load-test.js:/load-test.js
+    entrypoint: []
+    command: ["k6", "run", "/load-test.js"]
+    depends_on:
+      - spring-petclinic
